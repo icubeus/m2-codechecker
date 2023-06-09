@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [ master, staging, develop ]
+
+jobs:
+  static:
+    name: M2 Coding Standard
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: extdn/github-actions-m2/magento-coding-standard@master
+  phpmd:
+    name: M2 Mess Detector
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: extdn/github-actions-m2/magento-mess-detector@master
+  phpstan:
+    name: M2 PHPStan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: extdn/github-actions-m2/magento-phpstan@master
+        with:
+          composer_name: nameof/repository
+  js:
+    runs-on: ubuntu-latest
+    name: Javascript tests
+
+    steps:
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+
+      - uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run ESLint
+        run: npm run eslint -- src
