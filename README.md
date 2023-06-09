@@ -72,6 +72,19 @@ Magento Coding Standard General Fixing
 ```bash
   vendor/bin/phpcbf --standard=Magento2 path/to/folder
 ``` 
+If you get this error,
+```bash
+  ERROR: the "Magento2" coding standard is not installed. The installed coding standards are PSR12, Zend, PSR1, PSR2, PEAR, MySource and Squiz
+```
+copy the `Magento2` folder to your project root folder and try to rerun the command. If you then receive this error,
+```bash
+  ERROR: Referenced sniff "PHPCompatibility.FunctionUse.RemovedFunctions" does not exist
+```
+run this command
+```bash
+  vendor/bin/phpcs --config-set installed_paths ../../magento/magento-coding-standard/,../../phpcompatibility/php-compatibility
+```
+then rerun the cbf command.
 
 JS Eslint Checker
 ```bash
